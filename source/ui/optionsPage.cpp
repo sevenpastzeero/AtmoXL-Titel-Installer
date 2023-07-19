@@ -174,7 +174,7 @@ namespace inst::ui {
             std::string keyboardResult;
             int rc;
             std::vector<std::string> downloadUrl;
-            std::vector<pu::String> languageList;
+            std::vector<std::string> languageList;
             switch (this->menu->GetSelectedIndex()) {
                 case 0:
                     inst::config::ignoreReqVers = !inst::config::ignoreReqVers;

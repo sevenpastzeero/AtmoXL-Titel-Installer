@@ -95,7 +95,7 @@ namespace nx::ncm
         contentMetaHeader.content_count = contentInfos.size() + 1; // Add one for the cnmt content record
         contentMetaHeader.content_meta_count = packagedContentMetaHeader.content_meta_count;
         contentMetaHeader.attributes = packagedContentMetaHeader.attributes; // Sparse Titles use 0x04 not 0x0
-        contentMetaHeader.storage_id = 0;
+        contentMetaHeader.storage_id = packagedContentMetaHeader.storage_id;
 
         installContentMetaBuffer.Append<NcmContentMetaHeader>(contentMetaHeader);
 

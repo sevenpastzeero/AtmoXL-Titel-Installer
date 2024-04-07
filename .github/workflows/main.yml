@@ -42,7 +42,7 @@ jobs:
     - name: Build libusbhsfs dependencies
       run: |
         cd libusbhsfs
-        make BUILD_TYPE=GPL release
+        make BUILD_TYPE=GPL install
 
     - name: Build AtmoXL-Titel-Installer
       run: |

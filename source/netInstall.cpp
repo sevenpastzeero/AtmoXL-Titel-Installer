@@ -170,6 +170,7 @@ namespace netInstStuff{
                 inst::ui::instPage::setInstInfoText("inst.info_page.preparing"_lang);
                 inst::ui::instPage::setInstBarPerc(0);
                 installTask->Prepare();
+                installTask->InstallTicketCert();
                 installTask->Begin();
             }
         }
@@ -229,11 +230,11 @@ namespace netInstStuff{
     {
         u64 freq = armGetSystemTickFreq();
         u64 startTime = armGetSystemTick();
-        
+
         padConfigureInput(8, HidNpadStyleSet_NpadStandard);
         PadState pad;
         padInitializeAny(&pad);
-        
+
         try
         {
             ASSERT_OK(curl_global_init(CURL_GLOBAL_ALL), "Curl failed to initialized");
@@ -246,6 +247,8 @@ namespace netInstStuff{
                 if (m_serverSocket <= 0)
                 {
                     THROW_FORMAT("Server socket failed to initialize.\n");
+                    close(m_serverSocket);
+                    m_serverSocket = 0;
                 }
             }
 
@@ -256,7 +259,7 @@ namespace netInstStuff{
             LOG_DEBUG("%s %s\n", "Switch IP is ", ourIPAddress.c_str());
             LOG_DEBUG("%s\n", "Waiting for network");
             LOG_DEBUG("%s\n", "B to cancel");
-            
+
             std::vector<std::string> urls;
 
             while (true)
@@ -384,6 +387,8 @@ namespace netInstStuff{
         }
         catch (std::runtime_error& e)
         {
+            close(m_serverSocket);
+            m_serverSocket = 0;
             LOG_DEBUG("Failed to perform remote install!\n");
             LOG_DEBUG("%s", e.what());
             fprintf(stdout, "%s", e.what());

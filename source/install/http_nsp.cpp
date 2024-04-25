@@ -139,6 +139,9 @@ namespace tin::install::nsp
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
             inst::ui::instPage::setInstBarPerc((double)installProgress);
+            std::stringstream x;
+            x << (int)(installProgress);
+            inst::ui::instPage::setInstInfoText("inst.info_page.top_info0"_lang + ncaFileName + " " + x.str() + "%");
         }
         inst::ui::instPage::setInstBarPerc(100);
 

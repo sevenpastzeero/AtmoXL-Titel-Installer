@@ -172,6 +172,9 @@ namespace tin::install::xci
                 LOG_DEBUG("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
             #endif
             inst::ui::instPage::setInstBarPerc((double)installProgress);
+            std::stringstream x;
+            x << (int)(installProgress);
+            inst::ui::instPage::setInstInfoText("inst.info_page.top_info0"_lang + ncaFileName + " " + x.str() + "%");
         }
         inst::ui::instPage::setInstBarPerc(100);
 

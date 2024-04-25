@@ -119,6 +119,17 @@ namespace tin::install
 
     void Install::Begin()
     {
+        for (nx::ncm::ContentMeta contentMeta: m_contentMeta) {
+            LOG_DEBUG("Installing NCAs...\n");
+            for (auto& record : contentMeta.GetContentInfos())
+            {
+                LOG_DEBUG("Installing from %s\n", tin::util::GetNcaIdString(record.content_id).c_str());
+                this->InstallNCA(record.content_id);
+            }
+        }
+    }
+
+    void Install::InstallTicketCert() {
         LOG_DEBUG("Installing ticket and cert...\n");
         try
         {
@@ -127,15 +138,6 @@ namespace tin::install
         catch (std::runtime_error& e)
         {
             LOG_DEBUG("WARNING: Ticket installation failed! This may not be an issue, depending on your use case.\nProceed with caution!\n");
-        }
-
-        for (nx::ncm::ContentMeta contentMeta: m_contentMeta) {
-            LOG_DEBUG("Installing NCAs...\n");
-            for (auto& record : contentMeta.GetContentInfos())
-            {
-                LOG_DEBUG("Installing from %s\n", tin::util::GetNcaIdString(record.content_id).c_str());
-                this->InstallNCA(record.content_id);
-            }
         }
     }
 

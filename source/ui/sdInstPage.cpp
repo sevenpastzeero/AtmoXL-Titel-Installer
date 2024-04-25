@@ -64,6 +64,7 @@ namespace inst::ui {
     }
 
     void sdInstPage::drawMenuItems(bool clearItems, std::filesystem::path ourPath) {
+        s32 menuIndex = this->menu->GetSelectedIndex();
         if (clearItems) this->selectedTitles = {};
         if (ourPath == "sdmc:") this->currentDir = std::filesystem::path(ourPath.string() + "/");
         else this->currentDir = ourPath;
@@ -109,6 +110,7 @@ namespace inst::ui {
                 }
             }
             this->menu->AddItem(ourEntry);
+            this->menu->SetSelectedIndex(menuIndex);
             this->menuIndices.push_back(i);
         }
     }

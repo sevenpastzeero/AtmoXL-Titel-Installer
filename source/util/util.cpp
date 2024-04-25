@@ -20,7 +20,7 @@
 
 namespace inst::util {
     void initApp () {
-        if (!std::filesystem::exists("sdmc:/switch")) std::filesystem::create_directory("sdmc:/switch");
+        if (!std::filesystem::exists("sdmc:/config")) std::filesystem::create_directory("sdmc:/config");
         if (!std::filesystem::exists(inst::config::appDir)) std::filesystem::create_directory(inst::config::appDir);
         inst::config::parseConfig();
         inst::config::parseThemeColorConfig();
@@ -459,7 +459,7 @@ namespace inst::util {
 
    std::vector<std::string> checkForAppUpdate () {
         try {
-            std::string jsonData = inst::curl::downloadToBuffer("https://api.github.com/repos/dezem/AtmoXL-Titel-Installer/releases/latest", 0, 0, 1000L);
+            std::string jsonData = inst::curl::downloadToBuffer("https://api.github.com/repos/R-YaTian/AtmoXL-Titel-Installer/releases/latest", 0, 0, 1000L);
             if (jsonData.size() == 0) return {};
             nlohmann::json ourJson = nlohmann::json::parse(jsonData);
             if (ourJson["tag_name"].get<std::string>() != inst::config::appVersion) {

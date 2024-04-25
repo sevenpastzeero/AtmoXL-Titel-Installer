@@ -60,6 +60,7 @@ namespace inst::ui {
     }
 
     void usbInstPage::drawMenuItems(bool clearItems) {
+        s32 menuIndex = this->menu->GetSelectedIndex();
         if (clearItems) this->selectedTitles = {};
         this->menu->ClearItems();
         for (auto& url: this->ourTitles) {
@@ -73,6 +74,7 @@ namespace inst::ui {
                 }
             }
             this->menu->AddItem(ourEntry);
+            this->menu->SetSelectedIndex(menuIndex);
         }
     }
 

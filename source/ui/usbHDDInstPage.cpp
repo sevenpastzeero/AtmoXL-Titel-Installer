@@ -64,6 +64,7 @@ namespace inst::ui {
     }
 
     void usbHDDInstPage::drawMenuItems(bool clearItems, std::filesystem::path ourPath) {
+        s32 menuIndex = this->menu->GetSelectedIndex();
         if (clearItems) this->selectedTitles = {};
 		this->currentDir = ourPath;
 
@@ -119,6 +120,7 @@ namespace inst::ui {
                 }
             }
             this->menu->AddItem(ourEntry);
+            this->menu->SetSelectedIndex(menuIndex);
             this->menuIndices.push_back(i);
         }
     }

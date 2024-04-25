@@ -67,6 +67,7 @@ namespace inst::ui {
     }
 
     void netInstPage::drawMenuItems(bool clearItems) {
+        s32 menuIndex = this->menu->GetSelectedIndex();
         if (clearItems) this->selectedUrls = {};
         if (clearItems) this->alternativeNames = {};
         this->menu->ClearItems();
@@ -90,6 +91,7 @@ namespace inst::ui {
                 }
             }
             this->menu->AddItem(ourEntry);
+            this->menu->SetSelectedIndex(menuIndex);
             this->menuIndices.push_back(i);
         }
     }

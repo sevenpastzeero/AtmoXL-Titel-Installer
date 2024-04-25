@@ -60,11 +60,11 @@ namespace usbInstStuff {
 
     std::vector<std::string> OnSelected() {
         TUSHeader header;
-        
+
         padConfigureInput(8, HidNpadStyleSet_NpadStandard);
         PadState pad;
         padInitializeAny(&pad);
-        
+
         while(true) {
             if (bufferData(&header, sizeof(TUSHeader), 500000000) != 0) break;
             padUpdate(&pad);
@@ -137,7 +137,7 @@ namespace usbInstStuff {
                 inst::ui::instPage::setInstInfoText("inst.info_page.preparing"_lang);
                 inst::ui::instPage::setInstBarPerc(0);
                 installTask->Prepare();
-
+                installTask->InstallTicketCert();
                 installTask->Begin();
             }
         }

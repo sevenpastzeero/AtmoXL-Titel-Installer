@@ -1,7 +1,7 @@
 # AtmoXL-Titel-Installer
 A No-Bullshit NSP, NSZ, XCI, and XCZ Installer for Nintendo Switch
 
-![AtmoXL-Titel-Installer Main](https://raw.githubusercontent.com/dezem/AtmoXL-Titel-Installer/master/AtmoXL-Titel-Installer-Main.jpg)
+![AtmoXL-Titel-Installer Main](https://raw.githubusercontent.com/R-YaTian/AtmoXL-Titel-Installer/master/AtmoXL-Titel-Installer-Main.jpg)
 
 ## Features
 - Installs NSP/NSZ/XCI/XCZ files and split NSP/XCI files from your SD card
@@ -16,17 +16,17 @@ A No-Bullshit NSP, NSZ, XCI, and XCZ Installer for Nintendo Switch
 - Works on Atmosphere and SX OS
 
 ## Coloring support
-![AtmoXL-Titel-Installer Main Color](https://raw.githubusercontent.com/dezem/AtmoXL-Titel-Installer/master/AtmoXL-Titel-Installer-Main-Color.jpg)
+![AtmoXL-Titel-Installer Main Color](https://raw.githubusercontent.com/R-YaTian/AtmoXL-Titel-Installer/master/AtmoXL-Titel-Installer-Main-Color.jpg)
 
 To use this, you must place the "themecolor.json" at ATI dir.
 
-[Download themecolor.json](https://raw.githubusercontent.com/dezem/AtmoXL-Titel-Installer/master/themecolor.json)
+[Download themecolor.json](https://raw.githubusercontent.com/R-YaTian/AtmoXL-Titel-Installer/master/themecolor.json)
 
-https://github.com/dezem/AtmoXL-Titel-Installer/blob/40226852ffc6e6b77a49f17c1b49702d7e2c94f0/themecolor.json#L1-L9
+https://github.com/R-YaTian/AtmoXL-Titel-Installer/blob/40226852ffc6e6b77a49f17c1b49702d7e2c94f0/themecolor.json#L1-L9
 
 Use your wanted HEX colors -> https://www.w3schools.com/colors/colors_picker.asp
 
-![AtmoXL-Titel-Installer Main small](https://raw.githubusercontent.com/dezem/AtmoXL-Titel-Installer/master/AtmoXL-Titel-Installer-Main-small.jpg)
+![AtmoXL-Titel-Installer Main small](https://raw.githubusercontent.com/R-YaTian/AtmoXL-Titel-Installer/master/AtmoXL-Titel-Installer-Main-small.jpg)
 Choose your font size, use the themeMenuFontSize from the "themecolor.json"
 Default font size is 84.
 

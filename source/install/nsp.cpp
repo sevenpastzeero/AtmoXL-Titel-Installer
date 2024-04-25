@@ -20,9 +20,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "install/nsp.hpp"
+//https://switchbrew.org/wiki/NCA
 
 #include <threads.h>
+#include "install/nsp.hpp"
 #include "data/buffered_placeholder_writer.hpp"
 #include "util/title_util.hpp"
 #include "util/error.hpp"
@@ -74,7 +75,18 @@ namespace tin::install::nsp
         {
             const PFS0FileEntry* fileEntry = this->GetFileEntry(i);
             std::string name(this->GetFileEntryName(fileEntry));
-            auto foundExtension = name.substr(name.find(".") + 1); 
+            auto foundExtension = name.substr(name.find(".") + 1);
+
+            // fix cert filename extension becoming corrupted when xcz/nsz is installing certs.
+            std::string cert("cert");
+            std::size_t found = name.find(cert);
+            if (found != std::string::npos) {
+                int pos = 0;
+                std::string mystr = name;
+                pos = mystr.find_last_of('.');
+                mystr = mystr.substr(5, pos);
+                foundExtension = mystr.substr(mystr.find(".") + 1);
+            }
 
             if (foundExtension == extension)
                 entryList.push_back(fileEntry);
@@ -85,6 +97,7 @@ namespace tin::install::nsp
 
     const PFS0FileEntry* NSP::GetFileEntryByName(std::string name)
     {
+        // returns only the .nca and .cnmt.nca filenames
         for (unsigned int i = 0; i < this->GetBaseHeader()->numFiles; i++)
         {
             const PFS0FileEntry* fileEntry = this->GetFileEntry(i);
@@ -106,13 +119,13 @@ namespace tin::install::nsp
         {
             if ((fileEntry = this->GetFileEntryByName(ncaIdStr + ".cnmt.nca")) == nullptr)
             {
-                    if ((fileEntry = this->GetFileEntryByName(ncaIdStr + ".ncz")) == nullptr)
+                if ((fileEntry = this->GetFileEntryByName(ncaIdStr + ".ncz")) == nullptr)
+                {
+                    if ((fileEntry = this->GetFileEntryByName(ncaIdStr + ".cnmt.ncz")) == nullptr)
                     {
-                         if ((fileEntry = this->GetFileEntryByName(ncaIdStr + ".cnmt.ncz")) == nullptr)
-                         {
-                              return nullptr;
-                         }
+                        return nullptr;
                     }
+                }
             }
         }
 

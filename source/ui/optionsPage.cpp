@@ -180,6 +180,7 @@ namespace inst::ui {
                     inst::config::ignoreReqVers = !inst::config::ignoreReqVers;
                     inst::config::setConfig();
                     this->setMenuText();
+                    this->menu->SetSelectedIndex(0);
                     break;
                 case 1:
                     if (inst::config::validateNCAs) {
@@ -187,31 +188,37 @@ namespace inst::ui {
                     } else inst::config::validateNCAs = true;
                     inst::config::setConfig();
                     this->setMenuText();
+                    this->menu->SetSelectedIndex(1);
                     break;
                 case 2:
                     inst::config::overClock = !inst::config::overClock;
                     inst::config::setConfig();
                     this->setMenuText();
+                    this->menu->SetSelectedIndex(2);
                     break;
                 case 3:
                     inst::config::deletePrompt = !inst::config::deletePrompt;
                     inst::config::setConfig();
                     this->setMenuText();
+                    this->menu->SetSelectedIndex(3);
                     break;
                 case 4:
                     inst::config::enableSound = !inst::config::enableSound;
                     inst::config::setConfig();
                     this->setMenuText();
+                    this->menu->SetSelectedIndex(4);
                     break;
                 case 5:
                     inst::config::enableLightning = !inst::config::enableLightning;
                     inst::config::setConfig();
                     this->setMenuText();
+                    this->menu->SetSelectedIndex(5);
                     break;
                 case 6:
                     inst::config::autoUpdate = !inst::config::autoUpdate;
                     inst::config::setConfig();
                     this->setMenuText();
+                    this->menu->SetSelectedIndex(6);
                     break;
                 case 7:
                     for (int i = 0; i < 11; i++)

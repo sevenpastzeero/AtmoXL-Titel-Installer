@@ -151,9 +151,22 @@ namespace tin::install::nsp
 
     void NSPInstall::InstallTicketCert()
     {
-        // Read the tik files and put it into a buffer
         std::vector<const PFS0FileEntry*> tikFileEntries = m_NSP->GetFileEntriesByExtension("tik");
         std::vector<const PFS0FileEntry*> certFileEntries = m_NSP->GetFileEntriesByExtension("cert");
+
+        // check if ticket exists - if not exit function and warn user
+        std::stringstream ss;
+        for (auto it = tikFileEntries.begin(); it != tikFileEntries.end(); it++) {
+            if (it != tikFileEntries.begin())
+                ss << " ";
+            ss << *it;
+        }
+        if (ss.str().length() == 0) {
+            if (inst::config::validateNCAs)
+                inst::ui::mainApp->CreateShowDialog("main.usb.warn.title"_lang, "inst.nca_verify.ticket_missing"_lang, { "common.ok"_lang }, false);
+            return; // don't bother trying to install the ticket or cert if it doesn't exist.
+        }
+        // end of ticket check
 
         for (size_t i = 0; i < tikFileEntries.size(); i++)
         {
@@ -177,6 +190,59 @@ namespace tin::install::nsp
             auto certBuf = std::make_unique<u8[]>(certSize);
             LOG_DEBUG("> Reading cert\n");
             m_NSP->BufferData(certBuf.get(), m_NSP->GetDataOffset() + certFileEntries[i]->dataOffset, certSize);
+
+            // try to fix a temp ticket and change it to a permanent one
+            // https://switchbrew.org/wiki/Ticket#Certificate_chain
+            if (inst::config::fixTicket) {
+                u16 ECDSA = 0;
+                u16 RSA_2048 = 0;
+                u16 RSA_4096 = 0;
+
+                ECDSA = (0x4 + 0x3C + 0x40 + 0x146);
+                RSA_2048 = (0x4 + 0x100 + 0x3C + 0x146);
+                RSA_4096 = (0x4 + 0x200 + 0x3C + 0x146);
+
+                if (tikBuf.get()[0x0] == 0x5 && (tikBuf.get()[ECDSA] == 0x10 || tikBuf.get()[ECDSA] == 0x30))
+                {
+                    tikBuf.get()[ECDSA] = 0x0;
+                    tikBuf.get()[ECDSA - 1] = 0x10; // fix broken Master key revision
+                }
+
+                // RSA_2048 SHA256
+                else if (tikBuf.get()[0x0] == 0x4 && (tikBuf.get()[RSA_2048] == 0x10 || tikBuf.get()[RSA_2048] == 0x30))
+                {
+                    tikBuf.get()[RSA_2048] = 0x0;
+                    tikBuf.get()[RSA_2048 - 1] = 0x10;
+                }
+
+                // RSA_4096 SHA256
+                else if (tikBuf.get()[0x0] == 0x3 && (tikBuf.get()[RSA_4096] == 0x10 || tikBuf.get()[RSA_4096] == 0x30))
+                {
+                    tikBuf.get()[RSA_4096] = 0x0;
+                    tikBuf.get()[RSA_4096 - 1] = 0x10;
+                }
+
+                // ECDSA SHA1
+                else if (tikBuf.get()[0x0] == 0x2 && (tikBuf.get()[ECDSA] == 0x10 || tikBuf.get()[ECDSA] == 0x30))
+                {
+                    tikBuf.get()[ECDSA] = 0x0;
+                    tikBuf.get()[ECDSA - 1] = 0x10;
+                }
+
+                // RSA_2048 SHA1
+                else if (tikBuf.get()[0x0] == 0x1 && (tikBuf.get()[RSA_2048] == 0x10 || tikBuf.get()[RSA_2048] == 0x30))
+                {
+                    tikBuf.get()[RSA_2048] = 0x0;
+                    tikBuf.get()[RSA_2048 - 1] = 0x10;
+                }
+
+                // RSA_4096 SHA1
+                else if (tikBuf.get()[0x0] == 0x0 && (tikBuf.get()[RSA_4096] == 0x10 || tikBuf.get()[RSA_4096] == 0x30))
+                {
+                    tikBuf.get()[RSA_4096] = 0x0;
+                    tikBuf.get()[RSA_4096 - 1] = 0x10;
+                }
+            }
 
             // Finally, let's actually import the ticket
             ASSERT_OK(esImportTicket(tikBuf.get(), tikSize, certBuf.get(), certSize), "Failed to import ticket");

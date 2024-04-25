@@ -47,7 +47,7 @@ namespace tin::install::xci
         printBytes(m_headerBytes.data(), sizeof(HFS0BaseHeader), true);
 
         // Retrieve full header
-        HFS0BaseHeader *header = reinterpret_cast<HFS0BaseHeader*>(m_headerBytes.data());
+        HFS0BaseHeader* header = reinterpret_cast<HFS0BaseHeader*>(m_headerBytes.data());
         if (header->magic != MAGIC_HFS0)
             THROW_FORMAT("hfs0 magic doesn't match at 0x%lx\n", hfs0Offset);
 
@@ -62,7 +62,7 @@ namespace tin::install::xci
         header = reinterpret_cast<HFS0BaseHeader*>(m_headerBytes.data());
         for (unsigned int i = 0; i < header->numFiles; i++)
         {
-            const HFS0FileEntry *entry = hfs0GetFileEntry(header, i);
+            const HFS0FileEntry* entry = hfs0GetFileEntry(header, i);
             std::string entryName(hfs0GetFileName(header, entry));
 
             if (entryName != "secure")
@@ -137,13 +137,13 @@ namespace tin::install::xci
         {
             if ((fileEntry = this->GetFileEntryByName(ncaIdStr + ".cnmt.nca")) == nullptr)
             {
-                    if ((fileEntry = this->GetFileEntryByName(ncaIdStr + ".ncz")) == nullptr)
+                if ((fileEntry = this->GetFileEntryByName(ncaIdStr + ".ncz")) == nullptr)
+                {
+                    if ((fileEntry = this->GetFileEntryByName(ncaIdStr + ".cnmt.ncz")) == nullptr)
                     {
-                         if ((fileEntry = this->GetFileEntryByName(ncaIdStr + ".cnmt.ncz")) == nullptr)
-                         {
-                              return nullptr;
-                         }
+                        return nullptr;
                     }
+                }
             }
         }
 
@@ -158,7 +158,18 @@ namespace tin::install::xci
         {
             const HFS0FileEntry* fileEntry = this->GetFileEntry(i);
             std::string name(this->GetFileEntryName(fileEntry));
-            auto foundExtension = name.substr(name.find(".") + 1); 
+            auto foundExtension = name.substr(name.find(".") + 1);
+
+            // fix cert filename extension becoming corrupted when xcz/nsz is installing certs.
+            std::string cert("cert");
+            std::size_t found = name.find(cert);
+            if (found != std::string::npos) {
+                int pos = 0;
+                std::string mystr = name;
+                pos = mystr.find_last_of('.');
+                mystr = mystr.substr(5, pos);
+                foundExtension = mystr.substr(mystr.find(".") + 1);
+            }
 
             if (foundExtension == extension)
                 entryList.push_back(fileEntry);

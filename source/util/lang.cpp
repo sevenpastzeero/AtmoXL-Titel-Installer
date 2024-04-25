@@ -41,7 +41,7 @@ namespace Language {
                 break;
             case 6:
             case 15:
-                languagePath = "romfs:/lang/zh-CN.json";
+                languagePath = "romfs:/lang/zh-Hans.json";
                 break;
             case 7:
                 languagePath = "romfs:/lang/ko-KR.json";
@@ -56,7 +56,7 @@ namespace Language {
                 languagePath = "romfs:/lang/ru.json";
                 break;
             case 11:
-                languagePath = "romfs:/lang/zh-TW.json";
+                languagePath = "romfs:/lang/zh-Hant.json";
                 break;
             default:
                 languagePath = "romfs:/lang/en.json";

@@ -36,6 +36,11 @@ namespace tin::install::xci
         size_t readSize = 0x400000; // 4MB buff
         auto readBuffer = std::make_unique<u8[]>(readSize);
 
+        u64 freq = armGetSystemTickFreq();
+        u64 startTime = armGetSystemTick();
+        size_t startSizeBuffered = 0;
+        double speed = 0.0;
+
         try
         {
             inst::ui::instPage::setInstInfoText("inst.info_page.top_info0"_lang + ncaFileName + "...");
@@ -43,13 +48,21 @@ namespace tin::install::xci
             while (fileOff < ncaSize)
             {
                 progress = (float) fileOff / (float) ncaSize;
+                u64 newTime = armGetSystemTick();
 
                 if (fileOff % (0x400000 * 3) == 0) {
+                    size_t newSizeBuffered = fileOff;
+                    double mbBuffered = (newSizeBuffered / 1000000.0) - (startSizeBuffered / 1000000.0);
+                    double duration = ((double)(newTime - startTime) / (double)freq);
+                    speed =  mbBuffered / duration;
+                    startTime = newTime;
+                    startSizeBuffered = newSizeBuffered;
+
                     LOG_DEBUG("> Progress: %lu/%lu MB (%d%s)\r", (fileOff / 1000000), (ncaSize / 1000000), (int)(progress * 100.0), "%");
                     inst::ui::instPage::setInstBarPerc((double)(progress * 100.0));
                     std::stringstream x;
                     x << (int)(progress * 100.0);
-                    inst::ui::instPage::setInstInfoText("inst.info_page.top_info0"_lang + ncaFileName + " " + x.str() + "%");
+                    inst::ui::instPage::setInstInfoText("inst.info_page.top_info0"_lang + ncaFileName + " " + x.str() + "% " + "inst.info_page.at"_lang + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
                 }
 
                 if (fileOff + readSize >= ncaSize) readSize = ncaSize - fileOff;

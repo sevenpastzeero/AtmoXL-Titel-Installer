@@ -184,8 +184,9 @@ namespace usbInstStuff {
                 inst::util::lightningStop();
             }
         }
-        
+
         LOG_DEBUG("Done");
+        inst::util::reinitUsbComms();
         inst::ui::instPage::loadMainMenu();
         inst::util::deinitInstallServices();
         return;

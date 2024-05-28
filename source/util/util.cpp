@@ -45,6 +45,11 @@ namespace inst::util {
         awoo_usbCommsExit();
     }
 
+    void reinitUsbComms() {
+        awoo_usbCommsExit();
+        awoo_usbCommsInitialize();
+    }
+
     void initInstallServices() {
         ncmInitialize();
         nsextInitialize();

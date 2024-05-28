@@ -31,6 +31,6 @@ namespace inst::ui {
             Rectangle::Ref infoRect;
             Rectangle::Ref botRect;
             void followDirectory();
-            void selectNsp(int selectedIndex);
+            void selectNsp(int selectedIndex, bool redraw = true);
     };
 }

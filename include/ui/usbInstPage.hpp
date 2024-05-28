@@ -29,6 +29,6 @@ namespace inst::ui {
             pu::ui::elm::Menu::Ref menu;
             Image::Ref infoImage;
             void drawMenuItems(bool clearItems);
-            void selectTitle(int selectedIndex);
+            void selectTitle(int selectedIndex, bool redraw = true);
     };
 } 

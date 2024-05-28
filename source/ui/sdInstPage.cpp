@@ -144,7 +144,7 @@ namespace inst::ui {
         }
     }
 
-    void sdInstPage::selectNsp(int selectedIndex) {
+    void sdInstPage::selectNsp(int selectedIndex, bool redraw) {
         int dirListSize = this->ourDirectories.size();
         if (this->currentDir != "sdmc:/") dirListSize++;
 
@@ -153,14 +153,18 @@ namespace inst::ui {
 
         if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/images/icons/check-box-outline.png") {
             for (long unsigned int i = 0; i < this->selectedTitles.size(); i++) {
-                if (this->selectedTitles[i] == this->ourFiles[nspIndex]) this->selectedTitles.erase(this->selectedTitles.begin() + i);
+                if (this->selectedTitles[i] == this->ourFiles[nspIndex])
+                {
+                    this->selectedTitles.erase(this->selectedTitles.begin() + i);
+                }
             }
         } else if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/images/icons/checkbox-blank-outline.png") this->selectedTitles.push_back(this->ourFiles[nspIndex]);
         else {
             this->followDirectory();
             return;
         }
-        this->drawMenuItems(false, currentDir);
+        if (redraw)
+            this->drawMenuItems(false, currentDir);
     }
 
     void sdInstPage::startInstall() {
@@ -198,7 +202,7 @@ namespace inst::ui {
                 if (this->currentDir != "sdmc:/") topDir++;
                 for (long unsigned int i = this->ourDirectories.size() + topDir; i < this->menu->GetItems().size(); i++) {
                     if (this->menu->GetItems()[i]->GetIcon() == "romfs:/images/icons/check-box-outline.png") continue;
-                    else this->selectNsp(i);
+                    else this->selectNsp(i, false);
                 }
                 this->drawMenuItems(false, currentDir);
             }

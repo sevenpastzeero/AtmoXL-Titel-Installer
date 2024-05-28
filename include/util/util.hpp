@@ -4,6 +4,7 @@
 namespace inst::util {
     void initApp ();
     void deinitApp ();
+    void reinitUsbComms();
     void initInstallServices();
     void deinitInstallServices();
     bool ignoreCaseCompare(const std::string &a, const std::string &b);

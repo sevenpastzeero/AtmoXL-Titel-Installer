@@ -96,16 +96,19 @@ namespace inst::ui {
         }
     }
 
-    void netInstPage::selectTitle(int selectedIndex) {
+    void netInstPage::selectTitle(int selectedIndex, bool redraw) {
         long unsigned int urlIndex = 0;
         if (this->menuIndices.size() > 0) urlIndex = this->menuIndices[selectedIndex];
 
         if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/images/icons/check-box-outline.png") {
             for (long unsigned int i = 0; i < this->selectedUrls.size(); i++) {
-                if (this->selectedUrls[i] == this->ourUrls[urlIndex]) this->selectedUrls.erase(this->selectedUrls.begin() + i);
+                if (this->selectedUrls[i] == this->ourUrls[urlIndex])
+                {
+                    this->selectedUrls.erase(this->selectedUrls.begin() + i);
+                }
             }
         } else this->selectedUrls.push_back(this->ourUrls[urlIndex]);
-        this->drawMenuItems(false);
+        if (redraw) this->drawMenuItems(false);
     }
 
     void netInstPage::startNetwork() {
@@ -210,7 +213,7 @@ namespace inst::ui {
                 else {
                     for (long unsigned int i = 0; i < this->menu->GetItems().size(); i++) {
                         if (this->menu->GetItems()[i]->GetIcon() == "romfs:/images/icons/check-box-outline.png") continue;
-                        else this->selectTitle(i);
+                        else this->selectTitle(i, false);
                     }
                     this->drawMenuItems(false);
                 }

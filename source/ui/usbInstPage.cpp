@@ -78,13 +78,16 @@ namespace inst::ui {
         }
     }
 
-    void usbInstPage::selectTitle(int selectedIndex) {
+    void usbInstPage::selectTitle(int selectedIndex, bool redraw) {
         if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/images/icons/check-box-outline.png") {
             for (long unsigned int i = 0; i < this->selectedTitles.size(); i++) {
-                if (this->selectedTitles[i] == this->ourTitles[selectedIndex]) this->selectedTitles.erase(this->selectedTitles.begin() + i);
+                if (this->selectedTitles[i] == this->ourTitles[selectedIndex])
+                {
+                    this->selectedTitles.erase(this->selectedTitles.begin() + i);
+                }
             }
         } else this->selectedTitles.push_back(this->ourTitles[selectedIndex]);
-        this->drawMenuItems(false);
+        if (redraw) this->drawMenuItems(false);
     }
 
     void usbInstPage::startUsb() {
@@ -138,7 +141,7 @@ namespace inst::ui {
             else {
                 for (long unsigned int i = 0; i < this->menu->GetItems().size(); i++) {
                     if (this->menu->GetItems()[i]->GetIcon() == "romfs:/images/icons/check-box-outline.png") continue;
-                    else this->selectTitle(i);
+                    else this->selectTitle(i, false);
                 }
                 this->drawMenuItems(false);
             }

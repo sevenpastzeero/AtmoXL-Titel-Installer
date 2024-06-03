@@ -156,6 +156,7 @@ namespace inst::ui {
                 if (this->selectedTitles[i] == this->ourFiles[nspIndex])
                 {
                     this->selectedTitles.erase(this->selectedTitles.begin() + i);
+                    break;
                 }
             }
         } else if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/images/icons/checkbox-blank-outline.png") this->selectedTitles.push_back(this->ourFiles[nspIndex]);

@@ -84,6 +84,7 @@ namespace inst::ui {
                 if (this->selectedTitles[i] == this->ourTitles[selectedIndex])
                 {
                     this->selectedTitles.erase(this->selectedTitles.begin() + i);
+                    break;
                 }
             }
         } else this->selectedTitles.push_back(this->ourTitles[selectedIndex]);

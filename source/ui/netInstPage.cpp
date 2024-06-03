@@ -105,6 +105,7 @@ namespace inst::ui {
                 if (this->selectedUrls[i] == this->ourUrls[urlIndex])
                 {
                     this->selectedUrls.erase(this->selectedUrls.begin() + i);
+                    break;
                 }
             }
         } else this->selectedUrls.push_back(this->ourUrls[urlIndex]);

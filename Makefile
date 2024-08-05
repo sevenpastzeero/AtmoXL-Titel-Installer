@@ -44,7 +44,7 @@ DATA		:=	data
 INCLUDES	:=	include include/ui include/data include/install include/nx include/nx/ipc include/util include/Plutonium/Plutonium/Output-switch/include
 APP_TITLE	:=	AtmoXL Titel Installer
 APP_AUTHOR	:=	dezem & R-YaTian
-APP_VERSION	:=	1.8.2
+APP_VERSION	:=	1.8.2z
 ROMFS		:=	romfs
 
 #---------------------------------------------------------------------------------
